@@ -382,22 +382,25 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      z-index: 1000;
     }
 
-    /* Responsive: Move to Top for Mobile */
+    /* ✅ Fix: Move to Top in Mobile View */
     @media only screen and (max-width: 768px) {
       .btn-container {
-        top: 10px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%);
+        position: fixed;
+        top: 5px;  /* Move to top */
+        left: 0;
+        right: 0;
+        width: 100%;
+        transform: none;
+        display: flex;
         flex-direction: row;
+        justify-content: center;
         gap: 15px;
-      }
-
-      .btn, .share-btn {
-        font-size: 14px;
-        padding: 8px 12px;
+        background: rgba(255, 255, 255, 0.8); /* Slight transparent background */
+        padding: 8px 0;
+        z-index: 1000;
       }
     }
 </style>
