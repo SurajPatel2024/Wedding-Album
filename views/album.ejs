@@ -373,35 +373,20 @@
       transform: scale(1.05);
     }
 
-    /* Default: Position Fixed at Right-Center (Desktop) */
+    /* ✅ Always show buttons at the top */
     .btn-container {
       position: fixed;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      justify-content: center;
+      gap: 15px;
+      background: rgba(255, 255, 255, 0.9); /* Slight transparent background */
+      padding: 8px 0;
       z-index: 1000;
-    }
-
-    /* ✅ Fix: Move to Top in Mobile View */
-    @media only screen and (max-width: 768px) {
-      .btn-container {
-        position: fixed;
-        top: 5px;  /* Move to top */
-        left: 0;
-        right: 0;
-        width: 100%;
-        transform: none;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 15px;
-        background: rgba(255, 255, 255, 0.8); /* Slight transparent background */
-        padding: 8px 0;
-        z-index: 1000;
-      }
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
     }
 </style>
 <div class="btn-container">
@@ -583,7 +568,7 @@
 
     function enableDesktopMode() {
       // Change viewport to simulate a large desktop screen
-      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1200');
+      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1280');
       }
   </script>
 </html>
