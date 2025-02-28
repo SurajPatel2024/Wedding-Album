@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>3D Flip Album</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   <title>3D Flip Album</title>
   <style>
     * {
       box-sizing: border-box;
@@ -57,15 +58,7 @@
       rotate: 0 0 0 30deg;
     }
 
-    @media (max-width: 768px) and (orientation: portrait) {
-      .rotate-message {
-        display: flex;
-      }
 
-      .book {
-        display: none;
-      }
-    }
 
     .page {
   --thickness: 4;
@@ -344,9 +337,75 @@
   height: 60%;
   top: 25%;
 }
+
+.btn-container {
+  position: fixed;
+    width: 100%;
+    display: flex;
+    margin-top: 10%;
+    justify-content: start;
+    align-items: center;
+    height: 100vh;
+    gap: 15px; /* Space between buttons */
+    flex-direction: column;
+  }
+
+  .share-btn, .btn {
+    padding: 12px 24px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Share Button */
+  .share-btn {
+    background-color: #3b9c37;
+    color: white;
+  }
+
+  .share-btn:hover {
+    background-color: #2e7c2b;
+    transform: translateY(-2px);
+  }
+
+  /* Open Desktop Mode Button (visible only on mobile) */
+  .btn {
+    background-color: rgb(0, 119, 255);
+    color: white;
+    display: none; /* Hide by default */
+  }
+
+  .btn:hover {
+    background-color: rgb(0, 3, 200);
+    transform: translateY(-2px);
+  }
+
+  /* Show button only on mobile */
+  @media only screen and (max-width: 768px) {
+    .btn {
+      display: flex;
+      
+    }
+  }
 </style>
-  
-  <div class="rotate-message">Please rotate your device to landscape mode for the best experience.</div>
+<div class="btn-container">
+  <button class="share-btn" onclick="sharePage()">
+    <i class="fa-solid fa-share-nodes"></i> Share
+  </button>
+
+  <button class="btn" onclick="openDesktopMode()">
+    <i class="fa-solid fa-expand"></i> Open Desktop Mode
+  </button>
+</div>
+
  <div class="book" onclick="playAudio() ,playmusic()" >
   <!-- First Page (Cover Page) -->
   <div class="page" onclick="playAudio()">
@@ -491,4 +550,35 @@
   
 </body>
 
+ 
+ <!-- Buttons Container -->
+
+
+  <script>
+    function sharePage() {
+      const pageUrl = window.location.href;
+      const pageTitle = document.title;
+
+      if (navigator.share) {
+        navigator.share({
+          title: pageTitle,
+          url: pageUrl
+        }).catch(err => console.log("Sharing failed:", err));
+      } else {
+        navigator.clipboard.writeText(pageUrl).then(() => {
+          alert("🔗 Link copied to clipboard!");
+        });
+      }
+    }
+
+    function openDesktopMode() {
+      let url = window.location.href;
+      window.open(url + (url.includes('?') ? '&' : '?') + 'desktop=1', '_blank');
+    }
+
+    // Force desktop mode if "?desktop=1" is in the URL
+    if (window.location.search.includes('desktop=1')) {
+      document.body.style.zoom = "1.5"; // Mimic desktop mode
+    }
+  </script>
 </html>

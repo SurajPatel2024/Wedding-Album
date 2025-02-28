@@ -65,7 +65,7 @@ app.get("/album", async (req, res) => {
     const photos = await Photo.find();
     res.render("album", { photos });
   } catch (error) {
-    console.error("Error fetching album:", error);
+    console.error("Error fetching album:", error); 
     res.status(500).send("Internal Server Error");
   }
 });
