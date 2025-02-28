@@ -342,7 +342,7 @@
   position: fixed;
     width: 100%;
     display: flex;
-    margin-top: 10%;
+    margin-top: 20%;
     justify-content: start;
     align-items: center;
     height: 100vh;
@@ -402,7 +402,7 @@
   </button>
 
   <button class="btn" onclick="enableDesktopMode()">
-    <i class="fa-solid fa-expand"></i> Open Desktop Mode
+    <i class="fa-solid fa-expand"></i>view
   </button>
 </div>
 
@@ -576,8 +576,6 @@
     function enableDesktopMode() {
       // Change viewport to simulate a large desktop screen
       document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1280');
-      
-      alert("🔄 Desktop mode enabled! Refresh the page if needed.");
-    }
+      }
   </script>
 </html>
