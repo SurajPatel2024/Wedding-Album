@@ -338,56 +338,42 @@
   top: 25%;
 }
 
-.share-btn, .btn {
-      padding: 10px 15px;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border: none;
-      cursor: pointer;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-    }
+.btn-container {
+  
+  }
 
-    .share-btn {
-      background-color: #3b9c37;
-      color: white;
-    }
+  .share-btn, .btn {
+     
+  }
 
-    .share-btn:hover {
-      background-color: #2e7c2b;
-      transform: scale(1.05);
-    }
+  /* Share Button */
+  .share-btn {
+    
+  }
 
+  .share-btn:hover {
+   
+  }
+
+  /* Open Desktop Mode Button (visible only on mobile) */
+  .btn {
+    
+  }
+
+  .btn:hover {
+     
+  }
+
+  /* Show button only on mobile */
+  @media only screen and (max-width: 768px) {
+    
     .btn {
-      background-color: rgb(0, 225, 255);
-      color: white;
-    }
-
-    .btn:hover {
-      background-color: rgb(0, 180, 200);
-      transform: scale(1.05);
-    }
-
-    /* ✅ Always show buttons at the top */
-    .btn-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
       display: flex;
-      justify-content: center;
-      gap: 15px;
-      background: rgba(255, 255, 255, 0.9); /* Slight transparent background */
-      padding: 8px 0;
-      z-index: 1000;
-      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+      position: absolute;
+      top: 20%;
+      
     }
+  }
 </style>
 <div class="btn-container">
   <button class="share-btn" onclick="sharePage()">
@@ -568,7 +554,7 @@
 
     function enableDesktopMode() {
       // Change viewport to simulate a large desktop screen
-      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1280');
+      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1440');
       }
   </script>
 </html>
