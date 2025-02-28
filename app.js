@@ -12,14 +12,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Load environment variables
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ;
 const MONGO_URI = process.env.MONGO_URI;
 
-// Connect to MongoDB
-mongoose
-  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("MongoDB Connection Error:", err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log("Connected to MongoDB"))
+.catch(err => console.error("MongoDB Connection Error:", err));
 
 // Multer for image uploads
 const storage = multer.memoryStorage();
