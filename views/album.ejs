@@ -401,7 +401,7 @@
     <i class="fa-solid fa-share-nodes"></i> Share
   </button>
 
-  <button class="btn" onclick="openDesktopMode()">
+  <button class="btn" onclick="enableDesktopMode()">
     <i class="fa-solid fa-expand"></i> Open Desktop Mode
   </button>
 </div>
@@ -571,14 +571,13 @@
       }
     }
 
-    function openDesktopMode() {
-      let url = window.location.href;
-      window.open(url + (url.includes('?') ? '&' : '?') + 'desktop=1', '_blank');
-    }
+    
 
-    // Force desktop mode if "?desktop=1" is in the URL
-    if (window.location.search.includes('desktop=1')) {
-      document.body.style.zoom = "1.5"; // Mimic desktop mode
+    function enableDesktopMode() {
+      // Change viewport to simulate a large desktop screen
+      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1280');
+      
+      alert("🔄 Desktop mode enabled! Refresh the page if needed.");
     }
   </script>
 </html>
