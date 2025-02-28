@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Upload Photos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body, h1, a, form, input, button {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      text-align: center;
+      padding: 50px 20px;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    a:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(1.1);
+    }
+
+    .upload-area {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+      border: 2px dashed #fff;
+      cursor: pointer;
+    }
+
+    .upload-area.highlight {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 30px 10px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      a {
+        font-size: 1rem;
+        padding: 10px 16px;
+      }
+      .upload-area {
+        width: 90%;
+        max-width: 250px;
+        font-size: 0.9rem;
+      }
+      button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Upload Photos</h1>
+  <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+    <div id="uploadArea" class="upload-area">
+      Drag & Drop Images Here or Click to Upload
+      <input type="file" id="photoInput" name="photos" multiple required accept="image/*">
+    </div>
+    <button type="submit">Upload</button>
+  </form>
+  <a href="/">Back</a>
+  <script>
+    const uploadArea = document.getElementById("uploadArea");
+    const fileInput = document.getElementById("photoInput");
+
+    uploadArea.addEventListener("click", () => fileInput.click());
+    
+    uploadArea.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      uploadArea.classList.add("highlight");
+    });
+    
+    uploadArea.addEventListener("dragleave", () => {
+      uploadArea.classList.remove("highlight");
+    });
+    
+    uploadArea.addEventListener("drop", (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove("highlight");
+      fileInput.files = e.dataTransfer.files;
+    });
+  </script>
+</body>
+</html>
