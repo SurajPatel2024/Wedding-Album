@@ -338,42 +338,71 @@
   top: 25%;
 }
 
-.btn-container {
-  
-  }
-
-  .share-btn, .btn {
-     
-  }
-
-  /* Share Button */
-  .share-btn {
-    
-  }
-
-  .share-btn:hover {
-   
-  }
-
-  /* Open Desktop Mode Button (visible only on mobile) */
-  .btn {
-    
-  }
-
-  .btn:hover {
-     
-  }
-
-  /* Show button only on mobile */
-  @media only screen and (max-width: 768px) {
-    
-    .btn {
+.share-btn, .btn {
+      padding: 10px 15px;
+      font-size: 16px;
       display: flex;
-      position: absolute;
-      top: 20%;
-      
+      align-items: center;
+      gap: 8px;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
     }
-  }
+
+    .share-btn {
+      background-color: #3b9c37;
+      color: white;
+    }
+
+    .share-btn:hover {
+      background-color: #2e7c2b;
+      transform: scale(1.05);
+    }
+
+    .btn {
+      background-color: rgb(0, 225, 255);
+      color: white;
+    }
+
+    .btn:hover {
+      background-color: rgb(0, 180, 200);
+      transform: scale(1.05);
+    }
+
+    /* Default: Position Fixed at Right-Center (Desktop) */
+    .btn-container {
+      position: fixed;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    /* ✅ Fix: Move to Top in Mobile View */
+    @media only screen and (max-width: 768px) {
+      .btn-container {
+        position: fixed;
+        top: 5px;  /* Move to top */
+        left: 0;
+        right: 0;
+        width: 100%;
+        transform: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.8); /* Slight transparent background */
+        padding: 8px 0;
+        z-index: 1000;
+      }
+    }
 </style>
 <div class="btn-container">
   <button class="share-btn" onclick="sharePage()">
