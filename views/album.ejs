@@ -5,574 +5,201 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-   <title>3D Flip Album</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  <link rel="stylesheet" href="./style.css">
+  <title>3D Flip Album</title>
 
-    body {
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100dvh;
-      perspective: 1000px;
-      font: 1em/1.4 "Poppins", sans-serif;
-      overflow: hidden;
-      color: hsl(180 68% 5%);
-      background-color: black;
-    }
-
-    .rotate-message {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      font-size: 1.5em;
-      text-align: center;
-      padding: 20px;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .book {
-      position: relative;
-     
-      display: flex;
-      margin: auto;
-      width: 55cqmin;
-      max-width: 90vw;
-      max-height: 60vh;
-      width: 505px;
-      height: 390px;
-      pointer-events: none;
-      transform-style: preserve-3d;
-      transition: translate 1s;
-      translate: calc(min(var(--c), 1) * 50%) 0%;
-      rotate: 0 0 0 30deg;
-      cursor: pointer;
-    }
-
-
-
-    .page {
-      cursor: pointer;
-  --thickness: 4;
-  flex: none;
-  display: flex;
-  width: 100%;
-  font-size: 2cqmin;
-  pointer-events: all;
-  user-select: none;
-  transform-style: preserve-3d;
-  transform-origin: left center;
-  transition: transform 1s, rotate 1s ease-in calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
-  translate: calc(var(--i) * -100%) 0px 0px;
-  transform: translateZ(calc((var(--c) - var(--i) - 0.5) * calc(var(--thickness) * .23cqmin)));
-  rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
-  animation: boxShadowGlow 2s infinite alternate; /* Add animation */
-}
-
-@keyframes boxShadowGlow {
-  0% { box-shadow: 0px 0px 20px rgb(0, 255, 98); }
-  50% { box-shadow: 0px 0px 30px rgb(255, 0, 98); }
-  100% { box-shadow: 0px 0px 20px rgb(0, 98, 255); }
-}
-
-    .front,
-    .back {
-      position: relative;
-      flex: none;
-      width: 100%;
-      background-image: url('https://static.vecteezy.com/system/resources/thumbnails/035/494/595/small_2x/ai-generated-antique-old-elegant-background-photo.jpg');
-      backface-visibility: hidden;
-      overflow: hidden;
-      background-size: cover;
-      /* Ensure the image covers the entire page */
-      background-position: center;
-      /* Center the image */
-      background-repeat: no-repeat;
-      background-color: #fff;
-      translate: 0px;
-    }
-
-    .back {
-      translate: -100% 0;
-      rotate: 0 1 0 180deg;
-    }
-
-    .front,
-    .back {
-      display: flex;
-      flex-flow: column wrap;
-      justify-content: space-between;
-      padding: 2em;
-      border: 1px solid #0002;
-    }
-
-    .front img,
-    .back img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-     
- 
-
-
-  </style>
-  
 </head>
 
 <body>
  
-   
-  <div id="player2" style="display: none;"></div>
+  <div id="player2" style="display: none;"></div> <!-- for music -->
+  <div id="player" style="display: none;"></div> <!-- for page sound -->
  
-
-<script>
-  let player2;
-
-  function playmusic() {
-    if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
-      let tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      let firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      window.onYouTubeIframeAPIReady = function () {
-        createPlayer();
-      };
-    } else {
-      createPlayer();
-    }
-  }
-
-  function createPlayer() {
-    player2 = new YT.Player('player2', {
-      height: '0',
-      width: '0',
-      videoId: 's2lX0cBlJ1Y', // YouTube video ID
-      playerVars: {
-        autoplay: 1,  // Auto-play enabled
-        controls: 0,  // Hide controls
-        showinfo: 0,
-        modestbranding: 1,
-        loop: 1, // Loop audio
-        start: 0, // Start at 2 seconds
-        // Stop at 3 seconds
-      },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-  }
-
-  function onPlayerReady(event) {
-    event.target.playVideo(); // Start playing automatically
-  }
-
-  function onPlayerStateChange(event) {
-    if (event.data === YT.PlayerState.ENDED) {
-      player2.seekTo(2); // Loop back to 2 seconds
-      player2.playVideo();
-    }
-  }
-</script>
-
-
-<!-- Hidden YouTube Player -->
-<div id="player" style="display: none;"></div>
-
-<script>
-    let player;
-
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            height: '0', // Hide video
-            width: '0',
-            videoId: 'tAADqtTtT7k', // Your YouTube video ID
-            playerVars: {
-                autoplay: 0, // Don't auto-play initially
-                controls: 0, // Hide controls
-                showinfo: 0,
-                modestbranding: 1,
-                loop: 1, // Loop audio
-                start: 2, // ⬅ 2 सेकंड पर शुरू
-                end: 3   // ⬅ 3 सेकंड पर रुकेगा
-            },
-            events: {
-                'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        console.log("YouTube Player Ready");
-    }
-
-    function playAudio() {
-        if (player) {
-            player.seekTo(2); // ⬅ सुनिश्चित करें कि वीडियो 2 सेकंड पर सीक होगा
-            player.playVideo();
-        }
-    }
-
-    function pauseAudio() {
-        if (player) {
-            player.pauseVideo();
-        }
-    }
-
-    function onPlayerStateChange(event) {
-        if (event.data === YT.PlayerState.PLAYING) {
-            setTimeout(() => {
-                if (player.getCurrentTime() >= 3) { // ⬅ 3 सेकंड पर रुकना
-                    player.pauseVideo();
-                }
-            }, 1000); // 1 सेकंड बाद चेक करना
-        }
-    }
-
-    // Load YouTube API
-    let tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    let firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-</script>
-
-  
-<style>
- .image-container {
-    position: absolute;
-    width: 60cqmin;
-    height: 100%; 
-     top: 0;
-    right: 0;  
-}
-
-.centered-image {
-    position: absolute;
-    width:  100%;
-  
-    top: 0%;
-}
-.firstpage{
-  width: 50%;
-  height: 100%;
-  position: fixed;
-  top: 15%;
-  left: 50%;
-}
-.fsi{
- width: 200px;
- position: fixed;
-  top: 20%;
- right: 60%;
-}
-.fsi2{
- width: 200px;
- position: fixed;
-  top: 40%;
- right: 50%;
-}
-.fsi3{
- width: 80px;
- position: fixed;
-  top: 50%;
- right: 60%;
- 
-}
-.secondpageimage{
-  position: absolute;
-  right: 10%;
-  width: 50%;
-  height: 80%;
-  top: 12%;
-}
-.secondpageimage2{
-  position: absolute;
-  right: 10%;
-  width: 50%;
-  height: 80%;
-  top: 30%;
-}
-.rose4{
-  position: absolute;
-  left: -1%;
-  width: 40%;
-  height: 75%;
-  top: 20%;
-}
-.lastpageimag{
-  position: absolute;
-  right: 15%;
-  width: 46%;
-  height: 80%;
-  top: 13%;
-}
-.image-containerlast{
-  position: absolute;
-    width: 55cqmin;
-    height: 100%; 
-     top: 0;
-    right: 0; 
-}
-.secondpagescondimg{
-  position: absolute;
-  width: 45%;
-  height: 60%;
-  top: 25%;
-}
-.endpageimage{
-  position: absolute;
-  width: 45%;
-  height: 60%;
-  top: 25%;
-}
-
-.share-btn, .btn {
-      
-      padding: 10px 15px;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border: none;
-      cursor: pointer;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-      white-space: nowrap;
-    }
-
-    .share-btn {
-      background-color: #3b9c37;
-      color: white;
-    }
-
-    .share-btn:hover {
-      background-color: #2e7c2b;
-      transform: scale(1.05);
-    }
-
-    .btn {
-      background-color: rgb(0, 225, 255);
-      color: white;
-      display: none;
-    }
-
-    .btn:hover {
-      background-color: rgb(0, 180, 200);
-      transform: scale(1.05);
-    }
-
-    /* Default: Position Fixed at Right-Center (Desktop) */
-    .btn-container {
-      position: fixed;
-      top: 10%;
-       
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 1000;
-      
-    }
-
-    /* ✅ Fix: Move to Top in Mobile View */
-    @media only screen and (max-width: 768px) {
-      .btn-container {
-        position: fixed;
-        top: 5px;  /* Move to top */
-        left: 0;
-        right: 0;
-        width: 100%;
-        transform: none;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 15px;
-        background: rgba(0, 0, 0, 0.8); /* Slight transparent background */
-        padding: 8px 0;
-        z-index: 1000;
-      }
-      .btn{
-        display: flex;
-      }
-    }
-
-
-    .hand {
-            width: 100px;
-            height: 100px;
-            background: url('https://cdn-icons-png.flaticon.com/512/25/25603.png') no-repeat center;
-            background-size: cover;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out;
-        }
-        .clicked {
-            transform: scale(0.9) translateY(10px);
-        }
-</style>
-
- 
-<script>
-    const hand = document.getElementById("hand");
-    hand.addEventListener("mousedown", () => {
-        hand.classList.add("clicked");
-    });
-    hand.addEventListener("mouseup", () => {
-        hand.classList.remove("clicked");
-    });
-</script>
-<div class="btn-container">
-  <button class="share-btn" onclick="sharePage()" >
-    <i class="fa-solid fa-share-nodes"  class="hand" id="hand"></i> Share
-  </button>
-
-  <button class="btn" onclick="enableDesktopMode()">
-    <i class="fa-solid fa-expand"></i>view
-  </button>
-</div>
-
- <div class="book" onclick="playAudio() ,playmusic()" >
-  <!-- First Page (Cover Page) -->
-  <div class="page" onclick="playAudio()">
-    <div class="front cover" onclick="playAudio()">
-      <h1 style="position: absolute; top: 15%; font-size: 30px; left: 8px;">𝓦𝓮𝓭𝓭𝓲𝓷𝓰 𝓐𝓵𝓫𝓾𝓶</h1>
-      <div class="firstpage">
-        <img src="https://png.pngtree.com/png-clipart/20230927/original/pngtree-wedding-caricature-png-image_13144276.png" alt="">
-        
-      </div>
-      <div class="fsi">
-        
-        <img src="https://static.vecteezy.com/system/resources/previews/044/808/898/non_2x/red-bright-abstract-spot-brush-stroke-abstract-figure-background-texture-transparent-clipart-free-png.png" alt="">
-      </div>
-      <div class="fsi2">
-        
-        <img src="https://static.vecteezy.com/system/resources/previews/044/808/898/non_2x/red-bright-abstract-spot-brush-stroke-abstract-figure-background-texture-transparent-clipart-free-png.png" alt="">
-      </div>
-      <div class="fsi3">
-        
-        <img src="https://png.pngtree.com/png-vector/20230220/ourmid/pngtree-sang-hindi-calligraphy-png-image_6610553.png" alt="">
-      </div>
-    
-    
-    <div class="image-container">
-      <img class="centered-image"   src="https://static.vecteezy.com/system/resources/previews/034/866/031/non_2x/ai-generated-sakura-border-frame-gold-luxury-transparent-background-free-png.png" alt="">
-    </div>
-
-      <p style="position: absolute; top: 33%; font-size: 30px; color: #ffffff; font-weight: 800; font-style: italic;">𝕽𝖆𝖉𝖍𝖆<br></p>
-      
-      <p style="position: absolute; top: 53%; left: 15%; font-size: 30px; color: #ffffff; font-weight: 800; font-style: italic;">𝕶𝖗𝖎𝖘𝖍𝖆𝖓𝖆<br></p>
-    </div>
-    <div class="back" onclick="playAudio()">
-      <h2 style="color: rgb(156, 7, 7); position: absolute;top: 2%;">.....♥ 𝓜𝓸𝓶𝓮𝓷𝓽 𝓒𝓪𝓹𝓽𝓾𝓻𝓮 ♥....</h2>
-     
-     
-      <div class="secondpagescondimg">
-      
-        <img    src="https://static.vecteezy.com/system/resources/thumbnails/037/253/816/small_2x/ai-generated-beautiful-quite-wedding-couple-for-wedding-card-invitation-png.png" alt="">
-      </div>
-      
-     
-      <div class="image-container">
-      
-        <img class="centered-image"   src="https://www.transparentpng.com/thumb/flowers-borders/floral-borders-invitations-png-25.png" alt="">
-    </div>
-    <div class="secondpageimage">
-      <img class="centered-image"   src="https://png.pngtree.com/png-clipart/20221222/ourmid/pngtree-two-heart-shape-love-icon-illustration-clipart-png-image_6533016.png" alt="">
-  </div>
-  <p style="position: fixed; top: 30%; right: 19%; color: rgb(255, 255, 255); font-weight: 700; font-size: 30px;">𝕽𝖆𝖉𝖍𝖆</p>
-  <p style="position: fixed; top: 48%; right: 34%; color: rgb(255, 255, 255); font-weight: 700; font-size: 22px;">𝕶𝖗𝖎𝖘𝖍𝖆𝖓𝖆</p> 
-      <p style="color: rgb(156, 7, 7); top:80%; position: absolute;">𝓐 𝓬𝓸𝓵𝓵𝓮𝓬𝓽𝓲𝓸𝓷 𝓸𝓯 𝓫𝓮𝓪𝓾𝓽𝓲𝓯𝓾𝓵 ♥ 𝓶𝓸𝓶𝓮𝓷𝓽𝓼...</p>
-    </div>
+  <div class="btn-container">
+    <button class="share-btn" onclick="sharePage()">
+      <i class="fa-solid fa-share-nodes" class="hand" id="hand"></i> Share
+    </button>
   </div>
 
-  <!-- Remaining Pages (One Image Per Side) -->
-  <% let usedImages = new Set(); %>
-  <% let uniquePhotos = photos.filter(photo => !usedImages.has(photo._id.toString())); %>
-  <% uniquePhotos.forEach(photo => usedImages.add(photo._id.toString())); %>
+  <div class="book" onclick="playAudio() ,playmusic()">
+    <!-- First Page (Cover Page) -->
+    <div class="page" onclick="playAudio()">
+      <div class="front cover" onclick="playAudio()">
+        <h1 style="position: absolute; top: 15%; font-size: 30px; left: 8px;">𝓦𝓮𝓭𝓭𝓲𝓷𝓰 𝓐𝓵𝓫𝓾𝓶</h1>
+        <div class="firstpage">
+          <img
+            src="https://png.pngtree.com/png-clipart/20230927/original/pngtree-wedding-caricature-png-image_13144276.png"
+            alt="">
 
-  <% for (let i = 0; i < uniquePhotos.length; i += 2) { %>
-    <div class="page">
-    
-      
-      <!-- Front Side -->
-      <% if (i < uniquePhotos.length) { %>
-        <div class="front">
-      
+        </div>
+        <div class="fsi">
+
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/044/808/898/non_2x/red-bright-abstract-spot-brush-stroke-abstract-figure-background-texture-transparent-clipart-free-png.png"
+            alt="">
+        </div>
+        <div class="fsi2">
+
+          <img
+            src="https://static.vecteezy.com/system/resources/previews/044/808/898/non_2x/red-bright-abstract-spot-brush-stroke-abstract-figure-background-texture-transparent-clipart-free-png.png"
+            alt="">
+        </div>
+        <div class="fsi3">
+
+          <img
+            src="https://png.pngtree.com/png-vector/20230220/ourmid/pngtree-sang-hindi-calligraphy-png-image_6610553.png"
+            alt="">
+        </div>
+
+
         <div class="image-container">
-          <img class="centered-image" src="https://png.pngtree.com/png-clipart/20221126/ourmid/pngtree-floral-border-watercolor-rose-flowers-png-image_6481327.png" alt="">
+          <img class="centered-image"
+            src="https://static.vecteezy.com/system/resources/previews/034/866/031/non_2x/ai-generated-sakura-border-frame-gold-luxury-transparent-background-free-png.png"
+            alt="">
+        </div>
+
+        <p style="position: absolute; top: 33%; font-size: 30px; color: #ffffff; font-weight: 800; font-style: italic;">
+          𝕽𝖆𝖉𝖍𝖆<br></p>
+
+        <p
+          style="position: absolute; top: 53%; left: 15%; font-size: 30px; color: #ffffff; font-weight: 800; font-style: italic;">
+          𝕶𝖗𝖎𝖘𝖍𝖆𝖓𝖆<br></p>
       </div>
-          <img src="data:<%= uniquePhotos[i].contentType %>;base64,<%= uniquePhotos[i].data.toString('base64') %>"
-            alt="Uploaded Image <%= i + 1 %>" style="width: 100%; height: 100%; object-fit: cover;">
+      <div class="back" onclick="playAudio()">
+        <h2 style="color: rgb(156, 7, 7); position: absolute;top: 2%;">.....♥ 𝓜𝓸𝓶𝓮𝓷𝓽 𝓒𝓪𝓹𝓽𝓾𝓻𝓮 ♥....</h2>
+
+
+        <div class="secondpagescondimg">
+
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/037/253/816/small_2x/ai-generated-beautiful-quite-wedding-couple-for-wedding-card-invitation-png.png"
+            alt="">
         </div>
-      <% } %>
 
-      <!-- Back Side -->
-      <% if (i + 1 < uniquePhotos.length) { %>
-        <div class="back">
-         
-          <div class="image-container">
-            <img class="centered-image" style="position: absolute;   right: -8%; top: -10%; height: 118%; "  src="https://static.vecteezy.com/system/resources/thumbnails/021/183/330/small_2x/gold-frame-with-roses-flower-watercolor-png.png" alt="">
-        </div> 
-          <img src="data:<%= uniquePhotos[i + 1].contentType %>;base64,<%= uniquePhotos[i + 1].data.toString('base64') %>"
-            alt="Uploaded Image <%= i + 2 %>" style="width: 100%; height: 100%; object-fit: cover;">
+
+        <div class="image-container">
+
+          <img class="centered-image"
+            src="https://www.transparentpng.com/thumb/flowers-borders/floral-borders-invitations-png-25.png" alt="">
         </div>
-      <% } %>
+        <div class="secondpageimage">
+          <img class="centered-image"
+            src="https://png.pngtree.com/png-clipart/20221222/ourmid/pngtree-two-heart-shape-love-icon-illustration-clipart-png-image_6533016.png"
+            alt="">
+        </div>
+        <p style="position: fixed; top: 30%; right: 19%; color: rgb(255, 255, 255); font-weight: 700; font-size: 30px;">
+          𝕽𝖆𝖉𝖍𝖆</p>
+        <p style="position: fixed; top: 48%; right: 34%; color: rgb(255, 255, 255); font-weight: 700; font-size: 22px;">
+          𝕶𝖗𝖎𝖘𝖍𝖆𝖓𝖆</p>
+        <p style="color: rgb(156, 7, 7); top:80%; position: absolute;">𝓐 𝓬𝓸𝓵𝓵𝓮𝓬𝓽𝓲𝓸𝓷 𝓸𝓯 𝓫𝓮𝓪𝓾𝓽𝓲𝓯𝓾𝓵 ♥
+          𝓶𝓸𝓶𝓮𝓷𝓽𝓼...</p>
+      </div>
     </div>
-  <% } %>
 
-  <!-- Last Page (Back Cover) -->
-  <div class="page" onclick="playAudio()">
-    <div class="front" onclick="playAudio()">
-      <h2 style="color: rgb(168, 16, 16) ;">....𝓔𝓷𝓭 𝓸𝓯 𝓐𝓵𝓫𝓾𝓶 ♥ ... </h2>
-      <div class="image-container">
-        <img class="centered-image"   src="https://www.transparentpng.com/thumb/flowers-borders/floral-borders-invitations-png-25.png" alt="">
-    </div>
-      <div class="endpageimage">
-        <img  src="https://png.pngtree.com/png-clipart/20230912/original/pngtree-indian-punjabi-sikh-wedding-rituals-bride-and-groom-dancing-couple-illustration-png-image_11052015.png" alt="">
-    </div>
-    <div class="secondpageimage2">
-      <img class="centered-image"src="https://png.pngtree.com/png-clipart/20210309/original/pngtree-two-beautiful-red-roses-png-image_5809593.jpg" alt="">
+    <!-- Remaining Pages (One Image Per Side) -->
+    <% let usedImages=new Set(); %>
+      <% let uniquePhotos=photos.filter(photo=> !usedImages.has(photo._id.toString())); %>
+        <% uniquePhotos.forEach(photo=> usedImages.add(photo._id.toString())); %>
+
+          <% for (let i=0; i < uniquePhotos.length; i +=2) { %>
+            <div class="page">
+
+
+              <!-- Front Side -->
+              <% if (i < uniquePhotos.length) { %>
+                <div class="front">
+
+                  <div class="image-container">
+                    <img class="centered-image"
+                      src="https://png.pngtree.com/png-clipart/20221126/ourmid/pngtree-floral-border-watercolor-rose-flowers-png-image_6481327.png"
+                      alt="">
+                  </div>
+                  <img
+                    src="data:<%= uniquePhotos[i].contentType %>;base64,<%= uniquePhotos[i].data.toString('base64') %>"
+                    alt="Uploaded Image <%= i + 1 %>" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <% } %>
+
+                  <!-- Back Side -->
+                  <% if (i + 1 < uniquePhotos.length) { %>
+                    <div class="back">
+
+                      <div class="image-container">
+                        <img class="centered-image" style="position: absolute;   right: -8%; top: -10%; height: 118%; "
+                          src="https://static.vecteezy.com/system/resources/thumbnails/021/183/330/small_2x/gold-frame-with-roses-flower-watercolor-png.png"
+                          alt="">
+                      </div>
+                      <img
+                        src="data:<%= uniquePhotos[i + 1].contentType %>;base64,<%= uniquePhotos[i + 1].data.toString('base64') %>"
+                        alt="Uploaded Image <%= i + 2 %>" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <% } %>
+            </div>
+            <% } %>
+
+              <!-- Last Page (Back Cover) -->
+              <div class="page" onclick="playAudio()">
+                <div class="front" onclick="playAudio()">
+                  <h2 style="color: rgb(168, 16, 16) ;">....𝓔𝓷𝓭 𝓸𝓯 𝓐𝓵𝓫𝓾𝓶 ♥ ... </h2>
+                  <div class="image-container">
+                    <img class="centered-image"
+                      src="https://www.transparentpng.com/thumb/flowers-borders/floral-borders-invitations-png-25.png"
+                      alt="">
+                  </div>
+                  <div class="endpageimage">
+                    <img
+                      src="https://png.pngtree.com/png-clipart/20230912/original/pngtree-indian-punjabi-sikh-wedding-rituals-bride-and-groom-dancing-couple-illustration-png-image_11052015.png"
+                      alt="">
+                  </div>
+                  <div class="secondpageimage2">
+                    <img class="centered-image"
+                      src="https://png.pngtree.com/png-clipart/20210309/original/pngtree-two-beautiful-red-roses-png-image_5809593.jpg"
+                      alt="">
+                  </div>
+                  <p style="color: rgb(168, 16, 16); position: absolute; top: 80%;  ">𝕋𝕙𝕒𝕟𝕜 ♥ 𝕪𝕠𝕦 𝕗𝕠𝕣
+                    𝕧𝕚𝕖𝕨𝕚𝕟𝕘...</p>
+                </div>
+                <div class="back cover" onclick="playAudio()">
+                  <h3 style="font-size: 20px; position: absolute; top: 2%; right: 20%; color: rgb(156, 7, 7);">꧁༒༺
+                    Created with Love ༻༒꧂</h3>
+
+                  <div class="lastpageimag">
+                    <img class="centered-image"
+                      src="https://png.pngtree.com/png-clipart/20240901/original/pngtree-indian-couple-ai-generated-image-png-image_15908565.png"
+                      alt="">
+                  </div>
+                  <div class="image-containerlast">
+                    <img class="centered-image"
+                      src="https://png.pngtree.com/png-vector/20230523/ourmid/pngtree-red-chinese-style-thai-rectangle-corner-certificate-page-border-pattern-line-vector-png-image_7107180.png"
+                      alt="">
+                  </div>
+                  <div class="rose4">
+                    <img class="centered-image"
+                      src="https://png.pngtree.com/png-clipart/20210309/original/pngtree-two-beautiful-red-roses-png-image_5809593.jpg"
+                      alt="">
+                  </div>
+                  <p style="position: absolute; top: 89%; right: 30%; color: rgb(156, 7, 7);">Photo Album Project 2025
+                  </p>
+                </div>
+              </div>
   </div>
-      <p style="color: rgb(168, 16, 16); position: absolute; top: 80%;  ">𝕋𝕙𝕒𝕟𝕜 ♥ 𝕪𝕠𝕦 𝕗𝕠𝕣 𝕧𝕚𝕖𝕨𝕚𝕟𝕘...</p>
-    </div>
-    <div class="back cover" onclick="playAudio()">
-      <h3 style="font-size: 20px; position: absolute; top: 2%; right: 20%; color: rgb(156, 7, 7);" >꧁༒༺ Created with Love ༻༒꧂</h3>
-   
-    <div class="lastpageimag">
-      <img class="centered-image"   src="https://png.pngtree.com/png-clipart/20240901/original/pngtree-indian-couple-ai-generated-image-png-image_15908565.png" alt="">
-  </div>
-  <div class="image-containerlast">
-    <img class="centered-image" src="https://png.pngtree.com/png-vector/20230523/ourmid/pngtree-red-chinese-style-thai-rectangle-corner-certificate-page-border-pattern-line-vector-png-image_7107180.png" alt="">
-</div>
-  <div class="rose4">
-    <img class="centered-image" src="https://png.pngtree.com/png-clipart/20210309/original/pngtree-two-beautiful-red-roses-png-image_5809593.jpg" alt="">
-</div>
-      <p style="position: absolute; top: 89%; right: 30%; color: rgb(156, 7, 7);">Photo Album Project 2025</p>
-    </div>
-  </div>
-</div>
 
-
-
-
-
-
+ 
   <script>
+
+    // for desktop to mobile
+    function enableDesktopMode() {
+      // Change viewport to simulate a large desktop screen
+      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1000');
+    }
+    window.onload = function () {
+      if (window.innerWidth <= 768) {  // Check for Mobile View (Tablet/Mobile)
+        enableDesktopMode()
+      }
+    };
+  
+  
+    // for flip book 
     const flipBook = (elBook) => {
       elBook.style.setProperty("--c", 0);
       elBook.querySelectorAll(".page").forEach((page, idx) => {
@@ -584,21 +211,19 @@
         });
       });
     };
-
-    document.querySelectorAll(".book").forEach(flipBook);
-  </script>
   
-</body>
-
- 
- <!-- Buttons Container -->
-
-
-  <script>
+    document.querySelectorAll(".book").forEach(flipBook);
+  
+  
+  
+  
+  
+  
+    // for sharing page btn
     function sharePage() {
       const pageUrl = window.location.href;
       const pageTitle = document.title;
-
+  
       if (navigator.share) {
         navigator.share({
           title: pageTitle,
@@ -610,12 +235,129 @@
         });
       }
     }
-
-    
-
-    function enableDesktopMode() {
-      // Change viewport to simulate a large desktop screen
-      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1000');
+  
+  
+  
+  
+    // for play music
+    let player2;
+    function playmusic() {
+      if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
+        let tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        let firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  
+        window.onYouTubeIframeAPIReady = function () {
+          createPlayer();
+        };
+      } else {
+        createPlayer();
       }
+    }
+  
+    function createPlayer() {
+      player2 = new YT.Player('player2', {
+        height: '0',
+        width: '0',
+        videoId: 's2lX0cBlJ1Y', // YouTube video ID
+        playerVars: {
+          autoplay: 1,  // Auto-play enabled
+          controls: 0,  // Hide controls
+          showinfo: 0,
+          modestbranding: 1,
+          loop: 1, // Loop audio
+          start: 0, // Start at 2 seconds
+          // Stop at 3 seconds
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+  
+    function onPlayerReady(event) {
+      event.target.playVideo(); // Start playing automatically
+    }
+  
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        player2.seekTo(2); // Loop back to 2 seconds
+        player2.playVideo();
+      }
+    }
+  
+  
+  
+    //  for page sound              
+    let player;
+  
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '0', // Hide video
+        width: '0',
+        videoId: 'tAADqtTtT7k', // Your YouTube video ID
+        playerVars: {
+          autoplay: 0, // Don't auto-play initially
+          controls: 0, // Hide controls
+          showinfo: 0,
+          modestbranding: 1,
+          loop: 1, // Loop audio
+          start: 2, // ⬅ 2 सेकंड पर शुरू
+          end: 3   // ⬅ 3 सेकंड पर रुकेगा
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+  
+    function onPlayerReady(event) {
+      console.log("YouTube Player Ready");
+    }
+  
+    function playAudio() {
+      if (player) {
+        player.seekTo(2); // ⬅ सुनिश्चित करें कि वीडियो 2 सेकंड पर सीक होगा
+        player.playVideo();
+      }
+    }
+  
+    function pauseAudio() {
+      if (player) {
+        player.pauseVideo();
+      }
+    }
+  
+    function onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.PLAYING) {
+        setTimeout(() => {
+          if (player.getCurrentTime() >= 3) { // ⬅ 3 सेकंड पर रुकना
+            player.pauseVideo();
+          }
+        }, 1000); // 1 सेकंड बाद चेक करना
+      }
+    }
+  
+    // Load YouTube API
+    let tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  
+  
+    //  for Hand click animation
+    const hand = document.getElementById("hand");
+    hand.addEventListener("mousedown", () => {
+      hand.classList.add("clicked");
+    });
+    hand.addEventListener("mouseup", () => {
+      hand.classList.remove("clicked");
+    });
   </script>
+  
+</body>
+ 
 </html>
