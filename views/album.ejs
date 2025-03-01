@@ -56,11 +56,13 @@
       transition: translate 1s;
       translate: calc(min(var(--c), 1) * 50%) 0%;
       rotate: 0 0 0 30deg;
+      cursor: pointer;
     }
 
 
 
     .page {
+      cursor: pointer;
   --thickness: 4;
   flex: none;
   display: flex;
@@ -157,14 +159,14 @@
     player2 = new YT.Player('player2', {
       height: '0',
       width: '0',
-      videoId: '9DGgiYYPr58', // YouTube video ID
+      videoId: 's2lX0cBlJ1Y', // YouTube video ID
       playerVars: {
         autoplay: 1,  // Auto-play enabled
         controls: 0,  // Hide controls
         showinfo: 0,
         modestbranding: 1,
         loop: 1, // Loop audio
-        start: 46, // Start at 2 seconds
+        start: 0, // Start at 2 seconds
         // Stop at 3 seconds
       },
       events: {
@@ -339,6 +341,7 @@
 }
 
 .share-btn, .btn {
+      
       padding: 10px 15px;
       font-size: 16px;
       display: flex;
@@ -366,6 +369,7 @@
     .btn {
       background-color: rgb(0, 225, 255);
       color: white;
+      display: none;
     }
 
     .btn:hover {
@@ -376,13 +380,14 @@
     /* Default: Position Fixed at Right-Center (Desktop) */
     .btn-container {
       position: fixed;
-      top: 50%;
-      right: 10px;
+      top: 10%;
+       
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       gap: 10px;
       z-index: 1000;
+      
     }
 
     /* ✅ Fix: Move to Top in Mobile View */
@@ -398,15 +403,42 @@
         flex-direction: row;
         justify-content: center;
         gap: 15px;
-        background: rgba(255, 255, 255, 0.8); /* Slight transparent background */
+        background: rgba(0, 0, 0, 0.8); /* Slight transparent background */
         padding: 8px 0;
         z-index: 1000;
       }
+      .btn{
+        display: flex;
+      }
     }
+
+
+    .hand {
+            width: 100px;
+            height: 100px;
+            background: url('https://cdn-icons-png.flaticon.com/512/25/25603.png') no-repeat center;
+            background-size: cover;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        .clicked {
+            transform: scale(0.9) translateY(10px);
+        }
 </style>
+
+ 
+<script>
+    const hand = document.getElementById("hand");
+    hand.addEventListener("mousedown", () => {
+        hand.classList.add("clicked");
+    });
+    hand.addEventListener("mouseup", () => {
+        hand.classList.remove("clicked");
+    });
+</script>
 <div class="btn-container">
-  <button class="share-btn" onclick="sharePage()">
-    <i class="fa-solid fa-share-nodes"></i> Share
+  <button class="share-btn" onclick="sharePage()" >
+    <i class="fa-solid fa-share-nodes"  class="hand" id="hand"></i> Share
   </button>
 
   <button class="btn" onclick="enableDesktopMode()">
@@ -583,7 +615,7 @@
 
     function enableDesktopMode() {
       // Change viewport to simulate a large desktop screen
-      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1280');
+      document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1000');
       }
   </script>
 </html>
