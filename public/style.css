@@ -245,7 +245,7 @@
     /* Default: Position Fixed at Right-Center (Desktop) */
     .btn-container {
       position: fixed;
-      top: 10%;
+      top: 5%;
        
       transform: translateY(-50%);
       display: flex;
@@ -287,4 +287,31 @@
         .clicked {
             transform: scale(0.9) translateY(10px);
         }
- 
+        .falling-item {
+            position: absolute;
+            top: -50px; /* Start above the viewport */
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, white 10%, rgba(255, 255, 255, 0.651) 40%, transparent 80%);
+            border-radius: 50%; /* Make it circular */
+            box-shadow: 0 0 15px currentColor, 0 0 30px currentColor, 0 0 60px currentColor; /* Enhanced glowing effect */
+            animation: fall linear infinite, glow 1.5s infinite alternate;
+        }
+        @keyframes fall {
+            from {
+                transform: translateY(-50px) scale(1);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh) scale(0.3);
+                opacity: 0;
+            }
+        }
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+            }
+            to {
+                box-shadow: 0 0 30px currentColor, 0 0 70px currentColor;
+            }
+        }

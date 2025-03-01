@@ -187,18 +187,36 @@
 
  
   <script>
+  const colors = ["#FFD700", "#FFFFFF", "#FFA500", "#87CEEB", "#FF4500", "#FF69B4", "#00FF7F"];
 
-    // // for desktop to mobile
-    // function enableDesktopMode() {
-    //   // Change viewport to simulate a large desktop screen
-    //   document.querySelector('meta[name="viewport"]').setAttribute('content', 'width=1000');
-    // }
-    // window.onload = function () {
-    //   if (window.innerWidth <= 768) {  // Check for Mobile View (Tablet/Mobile)
-    //     enableDesktopMode()
-    //   }
-    // };
-  
+function createFallingItem() {
+    const item = document.createElement("div");
+    item.classList.add("falling-item");
+    
+    // Random color selection
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    item.style.color = color;
+    
+    // Random position
+    item.style.left = Math.random() * window.innerWidth + "px";
+    item.style.animationDuration = (Math.random() * 5 + 2) + "s"; // Different speeds
+    
+    document.body.appendChild(item);
+    
+    // Remove after animation ends
+    setTimeout(() => {
+        item.remove();
+    }, 7000);
+}
+
+// Create falling items at intervals
+setInterval(createFallingItem, 100);
+
+ 
+ 
+
+
+
   
     // for flip book 
     const flipBook = (elBook) => {
