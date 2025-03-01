@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
- 
+
   <meta viewport="width=1000">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="./style.css">
@@ -12,10 +12,10 @@
 </head>
 
 <body>
- 
+
   <div id="player2" style="display: none;"></div> <!-- for music -->
   <div id="player" style="display: none;"></div> <!-- for page sound -->
- 
+
   <div class="btn-container">
     <button class="share-btn" onclick="sharePage()">
       <i class="fa-solid fa-share-nodes" class="hand" id="hand"></i> Share
@@ -185,34 +185,8 @@
               </div>
   </div>
 
- 
+
   <script>
-  const colors = ["#FFD700", "#FFFFFF", "#FFA500", "#87CEEB", "#FF4500", "#FF69B4", "#00FF7F"];
-
-function createFallingItem() {
-    const item = document.createElement("div");
-    item.classList.add("falling-item");
-    
-    // Random color selection
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    item.style.color = color;
-    
-    // Random position
-    item.style.left = Math.random() * window.innerWidth + "px";
-    item.style.animationDuration = (Math.random() * 5 + 2) + "s"; // Different speeds
-    
-    document.body.appendChild(item);
-    
-    // Remove after animation ends
-    setTimeout(() => {
-        item.remove();
-    }, 7000);
-}
-
-// Create falling items at intervals
-setInterval(createFallingItem, 100);
-
-  //
     // for flip book 
     const flipBook = (elBook) => {
       elBook.style.setProperty("--c", 0);
@@ -225,19 +199,19 @@ setInterval(createFallingItem, 100);
         });
       });
     };
-  
+
     document.querySelectorAll(".book").forEach(flipBook);
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
     // for sharing page btn
     function sharePage() {
       const pageUrl = window.location.href;
       const pageTitle = document.title;
-  
+
       if (navigator.share) {
         navigator.share({
           title: pageTitle,
@@ -249,10 +223,10 @@ setInterval(createFallingItem, 100);
         });
       }
     }
-  
-  
-  
-  
+
+
+
+
     // for play music
     let player2;
     function playmusic() {
@@ -261,7 +235,7 @@ setInterval(createFallingItem, 100);
         tag.src = "https://www.youtube.com/iframe_api";
         let firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  
+
         window.onYouTubeIframeAPIReady = function () {
           createPlayer();
         };
@@ -269,7 +243,7 @@ setInterval(createFallingItem, 100);
         createPlayer();
       }
     }
-  
+
     function createPlayer() {
       player2 = new YT.Player('player2', {
         height: '0',
@@ -290,23 +264,23 @@ setInterval(createFallingItem, 100);
         }
       });
     }
-  
+
     function onPlayerReady(event) {
       event.target.playVideo(); // Start playing automatically
     }
-  
+
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.ENDED) {
         player2.seekTo(2); // Loop back to 2 seconds
         player2.playVideo();
       }
     }
-  
-  
-  
+
+
+
     //  for page sound              
     let player;
-  
+
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
         height: '0', // Hide video
@@ -327,24 +301,24 @@ setInterval(createFallingItem, 100);
         }
       });
     }
-  
+
     function onPlayerReady(event) {
       console.log("YouTube Player Ready");
     }
-  
+
     function playAudio() {
       if (player) {
         player.seekTo(2); // ⬅ सुनिश्चित करें कि वीडियो 2 सेकंड पर सीक होगा
         player.playVideo();
       }
     }
-  
+
     function pauseAudio() {
       if (player) {
         player.pauseVideo();
       }
     }
-  
+
     function onPlayerStateChange(event) {
       if (event.data === YT.PlayerState.PLAYING) {
         setTimeout(() => {
@@ -354,14 +328,14 @@ setInterval(createFallingItem, 100);
         }, 1000); // 1 सेकंड बाद चेक करना
       }
     }
-  
+
     // Load YouTube API
     let tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     let firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-  
-  
+
+
     //  for Hand click animation
     const hand = document.getElementById("hand");
     hand.addEventListener("mousedown", () => {
@@ -371,7 +345,7 @@ setInterval(createFallingItem, 100);
       hand.classList.remove("clicked");
     });
   </script>
-  
+
 </body>
- 
+
 </html>
